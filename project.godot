@@ -16,6 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="leap-bound"
+run/main_scene="res://room/Main.tscn"
 config/icon="res://icon.png"
 
 [rendering]

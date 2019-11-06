@@ -1,0 +1,3 @@
+[submodule "addon/splitscreen"]
+	path = addon/splitscreen
+	url = https://github.com/organicpencil/godot-splitscreen.git
