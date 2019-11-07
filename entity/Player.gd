@@ -1,25 +1,26 @@
-extends KinematicBody2D
+extends KinematicBody
 
-export (int) var speed = 200
+export (int) var speed = 10
 
-var velocity = Vector2()
+var velocity = Vector3()
 
-func get_camera():
-	return $Camera
+func get_camera_target():
+	return $CameraTarget
 		
 func place(_pos):
-	position = _pos
+	_pos.z = 0
+	translate(_pos)
 
 func get_input():
-    velocity = Vector2()
+    velocity = Vector3()
     if Input.is_action_pressed('ui_right'):
         velocity.x += 1
     if Input.is_action_pressed('ui_left'):
         velocity.x -= 1
     if Input.is_action_pressed('ui_down'):
-        velocity.y += 1
-    if Input.is_action_pressed('ui_up'):
         velocity.y -= 1
+    if Input.is_action_pressed('ui_up'):
+        velocity.y += 1
     velocity = velocity.normalized() * speed
 
 func _physics_process(delta):
