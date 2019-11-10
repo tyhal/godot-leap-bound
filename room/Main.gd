@@ -14,6 +14,7 @@ func initialise_new_player(player_number):
 	var x = rand_range(-spawn_spread, spawn_spread)
 	var y = rand_range(0, spawn_spread)
 	var pos = Vector3(x,y,0)
+	player.set_player_id(player_number)
 	player.place(pos)
 	
 	# Tell Splitscreen plugin we are adding a player
@@ -31,8 +32,23 @@ func initialise_new_player(player_number):
 	cam.set_interpolation_enabled(true)
 	cam.current = true
 	
+func initialise_all_players():
+	for i in range(num_players):
+		initialise_new_player(i)
+		
+func check_players():
+	for player in $Players.get_children():
+		var t = player.get_transform()
+		# If lower than 10 on the map
+		if t.origin.y < -10:
+			$Splitscreen.remove_player(player.id)
+			player.queue_free()
+	if $Players.get_child_count() == 0:
+		initialise_all_players()
+	
+func _physics_process(delta):
+	check_players()
 
 func _ready():
 	randomize()
-	for i in range(num_players):
-		initialise_new_player(i)
+	initialise_all_players()
