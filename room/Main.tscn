@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://room/Main.gd" type="Script" id=1]
-[ext_resource path="res://addon/splitscreen/addons/organicpencil.splitscreen/splitscreen.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/organicpencil.splitscreen/splitscreen.tscn" type="PackedScene" id=2]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 23.5172, 1, 1 )
