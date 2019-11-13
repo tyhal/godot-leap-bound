@@ -10,7 +10,7 @@
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.76837e-007, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.76837e-07, 0 )
 shape = SubResource( 1 )
 
 [node name="CameraTarget" type="Spatial" parent="."]

@@ -3,37 +3,48 @@ extends Spatial
 # Include Player Entity
 var Player = preload("res://entity/Player.tscn")
 
-var num_players = 4
+var players_devices = []
 var spawn_spread = 10
 var tile_size = 32
 
-func initialise_new_player(player_number):
+func _unhandled_input(event):
+	if event is InputEventJoypadButton or event is InputEventKey:
+		if event.is_action_pressed("ui_accept"):
+			var id = event.device
+			if event is InputEventKey:
+				id = -1 # Keyboard player
+			print(id)
+			if not players_devices.has(id):
+				players_devices.append(id)
+				initialise_new_player(players_devices.size() - 1)
+
+func initialise_new_player(player_id):
 	# Create Player Entity
 	var player = Player.instance()
+	
 	# Reposition that player in the world
 	var x = rand_range(-spawn_spread, spawn_spread)
 	var y = rand_range(0, spawn_spread)
 	var pos = Vector3(x,y,0)
-	player.set_player_id(player_number)
+	player.set_player_id(player_id)
+	player.set_device_id(players_devices[player_id])
 	player.place(pos)
 	
 	# Tell Splitscreen plugin we are adding a player
-	var render = $Splitscreen.add_player(player_number)
+	var render = $Splitscreen.add_player(player_id)
 	
 	# Create new Camera for the splitscreen
 	var cam = InterpolatedCamera.new()
 	$Players.add_child(player)
 	render.viewport.add_child(cam)
-	
-	# Tell that camera to follow an object slightly away from the player (see Player Entity)
-	cam.translation = Vector3(x, y, 10)
+
 	cam.set_target(player.get_camera_target())
 	cam.set_speed(2)
 	cam.set_interpolation_enabled(true)
 	cam.current = true
 	
 func initialise_all_players():
-	for i in range(num_players):
+	for i in range(players_devices.size()):
 		initialise_new_player(i)
 		
 func check_players():
